@@ -18,7 +18,6 @@ import com.clinic.utils.Enums.ResponseStatus;
 public class UserAuthController {
 
     private final UserAuthService userAuthService;
-
     @PostMapping(value = "/login")
     @Operation(description = "Login user and display the role", summary = "Login existing user")
     private ResponseEntity<AuthResponse> loginuser(@Valid @RequestBody AuthRequest authRequest){
