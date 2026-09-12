@@ -51,7 +51,6 @@ public class AppointmentController {
     public ResponseEntity<ResponseDto> cancelAppointment(@Valid @PathVariable Long appointmentId, String cancelReason) {
         return ResponseEntity.ok(appointmentService.cancelAppointment(appointmentId, cancelReason));
     }
-
     @PutMapping("/reschedule")
     @Operation(summary = "Reschedule an appointment")
     @PreAuthorize("hasAnyRole('PATIENT', 'ADMIN')")
