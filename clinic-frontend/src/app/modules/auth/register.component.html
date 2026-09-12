@@ -1,0 +1,548 @@
+<div class="register-container">
+  <!-- Background Animation -->
+  <div class="animated-background">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+    <div class="circle circle-4"></div>
+  </div>
+
+  <!-- Main Registration Container -->
+  <div class="container-fluid">
+    <div class="row justify-content-center align-items-center min-vh-100 py-4">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+        
+        <!-- Registration Card -->
+        <div class="card register-card glass-effect fade-in animate__animated animate__fadeInUp">
+          
+          <!-- Header -->
+          <div class="card-header text-center border-0 bg-transparent">
+            <div class="logo-container mb-3">
+              <i class="fas fa-heartbeat text-gradient" style="font-size: 3rem;"></i>
+            </div>
+            <h2 class="text-gradient mb-2">Join Our Clinic</h2>
+            <p class="text-muted">Create your account to get started with our healthcare platform.</p>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container mt-4">
+              <div class="progress">
+                <div class="progress-bar bg-gradient-primary" 
+                     [style.width.%]="getProgressPercentage()"
+                     role="progressbar">
+                </div>
+              </div>
+              <div class="step-indicators mt-2">
+                <span class="step-indicator" 
+                      [class.active]="currentStep >= 1"
+                      [class.completed]="currentStep > 1">
+                  <i class="fas fa-user-tag"></i>
+                  <small>Profile</small>
+                </span>
+                <span class="step-indicator" 
+                      [class.active]="currentStep >= 2"
+                      [class.completed]="currentStep > 2">
+                  <i class="fas fa-user-edit"></i>
+                  <small>Details</small>
+                </span>
+                <span class="step-indicator" 
+                      [class.active]="currentStep >= 3">
+                  <i class="fas fa-clipboard-list"></i>
+                  <small>Specifics</small>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body px-4 pb-4">
+            
+            <!-- Alert Messages -->
+            <ngb-alert 
+              *ngIf="errorMessage" 
+              type="danger" 
+              (closed)="closeAlert()"
+              class="animate__animated animate__fadeInDown">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              {{ errorMessage }}
+            </ngb-alert>
+
+            <ngb-alert 
+              *ngIf="successMessage" 
+              type="success" 
+              (closed)="closeAlert()"
+              class="animate__animated animate__fadeInDown">
+              <i class="fas fa-check-circle me-2"></i>
+              {{ successMessage }}
+            </ngb-alert>
+
+            <!-- Step 1: Profile Selection -->
+            <div *ngIf="currentStep === 1" class="step-content slide-in-up">
+              <h4 class="mb-4 text-center">Choose Your Profile</h4>
+              
+              <div class="row g-3">
+                <div class="col-12 col-md-6" *ngFor="let profile of profiles">
+                  <div class="profile-card" 
+                       [class.selected]="selectedProfile === profile.type"
+                       (click)="selectProfile(profile.type)">
+                    <div class="profile-icon">
+                      <i [class]="profile.icon" [class]="'text-' + profile.color"></i>
+                    </div>
+                    <h5>{{ profile.title }}</h5>
+                    <p class="text-muted">{{ profile.description }}</p>
+                    <div class="selection-indicator">
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="step-navigation mt-4">
+                <button type="button" 
+                        class="btn btn-outline-secondary"
+                        (click)="goToLogin()">
+                  <i class="fas fa-arrow-left me-2"></i>
+                  Back to Login
+                </button>
+                <button type="button" 
+                        class="btn btn-gradient-primary ms-auto"
+                        [disabled]="!selectedProfile"
+                        (click)="nextStep()">
+                  Continue
+                  <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 2: Basic Information -->
+            <div *ngIf="currentStep === 2" class="step-content slide-in-up">
+              <h4 class="mb-4 text-center">Basic Information</h4>
+              
+              <form [formGroup]="registerForm">
+                <div class="row g-3">
+                  <!-- Email -->
+                  <div class="col-12">
+                    <label for="email" class="form-label">
+                      <i class="fas fa-envelope me-2"></i>Email Address *
+                    </label>
+                    <input type="email" id="email" formControlName="email"
+                           class="form-control" 
+                           [class.is-invalid]="hasFieldError('email')"
+                           placeholder="Enter your email address">
+                    <div *ngIf="hasFieldError('email')" class="invalid-feedback d-block">
+                      {{ getFieldError('email') }}
+                    </div>
+                  </div>
+
+                  <!-- Username -->
+                  <div class="col-12">
+                    <label for="username" class="form-label">
+                      <i class="fas fa-user me-2"></i>Username (Optional)
+                    </label>
+                    <input type="text" id="username" formControlName="username"
+                           class="form-control" 
+                           [class.is-invalid]="hasFieldError('username')"
+                           placeholder="Choose a username">
+                    <div *ngIf="hasFieldError('username')" class="invalid-feedback d-block">
+                      {{ getFieldError('username') }}
+                    </div>
+                  </div>
+
+                  <!-- Name -->
+                  <div class="col-12 col-md-6">
+                    <label for="firstName" class="form-label">
+                      <i class="fas fa-user me-2"></i>First Name *
+                    </label>
+                    <input type="text" id="firstName" formControlName="firstName"
+                           class="form-control" 
+                           [class.is-invalid]="hasFieldError('firstName')"
+                           placeholder="Enter your first name">
+                    <div *ngIf="hasFieldError('firstName')" class="invalid-feedback d-block">
+                      {{ getFieldError('firstName') }}
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label for="lastName" class="form-label">
+                      <i class="fas fa-user me-2"></i>Last Name *
+                    </label>
+                    <input type="text" id="lastName" formControlName="lastName"
+                           class="form-control" 
+                           [class.is-invalid]="hasFieldError('lastName')"
+                           placeholder="Enter your last name">
+                    <div *ngIf="hasFieldError('lastName')" class="invalid-feedback d-block">
+                      {{ getFieldError('lastName') }}
+                    </div>
+                  </div>
+
+                  <!-- Password -->
+                  <div class="col-12 col-md-6">
+                    <label for="password" class="form-label">
+                      <i class="fas fa-lock me-2"></i>Password *
+                    </label>
+                    <div class="input-group">
+                      <input [type]="showPassword ? 'text' : 'password'" 
+                             id="password" formControlName="password"
+                             class="form-control" 
+                             [class.is-invalid]="hasFieldError('password')"
+                             placeholder="Create a strong password">
+                      <button type="button" class="btn btn-outline-secondary"
+                              (click)="togglePasswordVisibility('password')">
+                        <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                      </button>
+                    </div>
+                    <div *ngIf="hasFieldError('password')" class="invalid-feedback d-block">
+                      {{ getFieldError('password') }}
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label for="confirmPassword" class="form-label">
+                      <i class="fas fa-lock me-2"></i>Confirm Password *
+                    </label>
+                    <div class="input-group">
+                      <input [type]="showConfirmPassword ? 'text' : 'password'" 
+                             id="confirmPassword" formControlName="confirmPassword"
+                             class="form-control" 
+                             [class.is-invalid]="hasFieldError('confirmPassword')"
+                             placeholder="Confirm your password">
+                      <button type="button" class="btn btn-outline-secondary"
+                              (click)="togglePasswordVisibility('confirmPassword')">
+                        <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                      </button>
+                    </div>
+                    <div *ngIf="hasFieldError('confirmPassword')" class="invalid-feedback d-block">
+                      {{ getFieldError('confirmPassword') }}
+                    </div>
+                  </div>
+
+                  <!-- Phone -->
+                  <div class="col-12 col-md-6">
+                    <label for="phoneNumber" class="form-label">
+                      <i class="fas fa-phone me-2"></i>Phone Number
+                    </label>
+                    <input type="tel" id="phoneNumber" formControlName="phoneNumber"
+                           class="form-control" 
+                           [class.is-invalid]="hasFieldError('phoneNumber')"
+                           placeholder="+1 (555) 123-4567">
+                    <div *ngIf="hasFieldError('phoneNumber')" class="invalid-feedback d-block">
+                      {{ getFieldError('phoneNumber') }}
+                    </div>
+                  </div>
+
+                  <!-- Date of Birth -->
+                  <div class="col-12 col-md-6">
+                    <label for="dateOfBirth" class="form-label">
+                      <i class="fas fa-calendar me-2"></i>Date of Birth
+                    </label>
+                    <input type="date" id="dateOfBirth" formControlName="dateOfBirth"
+                           class="form-control">
+                  </div>
+
+                  <!-- Address -->
+                  <div class="col-12">
+                    <label for="address" class="form-label">
+                      <i class="fas fa-map-marker-alt me-2"></i>Address
+                    </label>
+                    <textarea id="address" formControlName="address"
+                              class="form-control" rows="2"
+                              placeholder="Enter your address"></textarea>
+                  </div>
+
+                  <!-- Terms Agreement -->
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input type="checkbox" id="agreeToTerms" formControlName="agreeToTerms"
+                             class="form-check-input" 
+                             [class.is-invalid]="hasFieldError('agreeToTerms')">
+                      <label for="agreeToTerms" class="form-check-label">
+                        I agree to the <a href="#" class="text-primary">Terms of Service</a> and 
+                        <a href="#" class="text-primary">Privacy Policy</a> *
+                      </label>
+                    </div>
+                    <div *ngIf="hasFieldError('agreeToTerms')" class="invalid-feedback d-block">
+                      {{ getFieldError('agreeToTerms') }}
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+              <div class="step-navigation mt-4">
+                <button type="button" 
+                        class="btn btn-outline-secondary"
+                        (click)="previousStep()">
+                  <i class="fas fa-arrow-left me-2"></i>
+                  Previous
+                </button>
+                <button type="button" 
+                        class="btn btn-gradient-primary ms-auto"
+                        [disabled]="registerForm.invalid"
+                        (click)="nextStep()">
+                  Continue
+                  <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 3: Profile Specific Details -->
+            <div *ngIf="currentStep === 3 && profileDetailsForm" class="step-content slide-in-up">
+              <h4 class="mb-4 text-center">
+                {{ selectedProfile === 'doctor' ? 'Medical Professional Details' : 
+                   selectedProfile === 'staff' ? 'Staff Information' :
+                   selectedProfile === 'patient' ? 'Patient Information' :
+                   'Administrator Details' }}
+              </h4>
+              
+              <form [formGroup]="profileDetailsForm">
+                
+                <!-- Doctor Details -->
+                <div *ngIf="selectedProfile === 'doctor'" class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">License Number *</label>
+                    <input type="text" formControlName="licenseNumber" class="form-control"
+                           [class.is-invalid]="hasFieldError('licenseNumber', profileDetailsForm)"
+                           placeholder="Medical license number">
+                    <div *ngIf="hasFieldError('licenseNumber', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('licenseNumber', profileDetailsForm) }}
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Department *</label>
+                    <select formControlName="department" class="form-select"
+                            [class.is-invalid]="hasFieldError('department', profileDetailsForm)">
+                      <option value="">Select department</option>
+                      <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+                    </select>
+                    <div *ngIf="hasFieldError('department', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('department', profileDetailsForm) }}
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label">Specializations *</label>
+                    <select formControlName="specialization" class="form-select" multiple
+                            [class.is-invalid]="hasFieldError('specialization', profileDetailsForm)">
+                      <option *ngFor="let spec of specializations" [value]="spec">{{ spec }}</option>
+                    </select>
+                    <small class="form-text text-muted">Hold Ctrl/Cmd to select multiple specializations</small>
+                    <div *ngIf="hasFieldError('specialization', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('specialization', profileDetailsForm) }}
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Years of Experience *</label>
+                    <input type="number" formControlName="experience" class="form-control"
+                           [class.is-invalid]="hasFieldError('experience', profileDetailsForm)"
+                           placeholder="Years of experience" min="0">
+                    <div *ngIf="hasFieldError('experience', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('experience', profileDetailsForm) }}
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Consultation Fee</label>
+                    <input type="number" formControlName="consultationFee" class="form-control"
+                           placeholder="Fee amount" min="0">
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label">Qualifications *</label>
+                    <textarea formControlName="qualifications" class="form-control" rows="2"
+                              [class.is-invalid]="hasFieldError('qualifications', profileDetailsForm)"
+                              placeholder="List your qualifications separated by commas"></textarea>
+                    <div *ngIf="hasFieldError('qualifications', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('qualifications', profileDetailsForm) }}
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Staff Details -->
+                <div *ngIf="selectedProfile === 'staff'" class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Employee ID *</label>
+                    <input type="text" formControlName="employeeId" class="form-control"
+                           [class.is-invalid]="hasFieldError('employeeId', profileDetailsForm)"
+                           placeholder="Employee identification number">
+                    <div *ngIf="hasFieldError('employeeId', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('employeeId', profileDetailsForm) }}
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Department *</label>
+                    <select formControlName="department" class="form-select"
+                            [class.is-invalid]="hasFieldError('department', profileDetailsForm)">
+                      <option value="">Select department</option>
+                      <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+                    </select>
+                    <div *ngIf="hasFieldError('department', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('department', profileDetailsForm) }}
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Designation *</label>
+                    <select formControlName="designation" class="form-select"
+                            [class.is-invalid]="hasFieldError('designation', profileDetailsForm)">
+                      <option value="">Select designation</option>
+                      <option *ngFor="let des of designations" [value]="des">{{ des }}</option>
+                    </select>
+                    <div *ngIf="hasFieldError('designation', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('designation', profileDetailsForm) }}
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Joining Date *</label>
+                    <input type="date" formControlName="joiningDate" class="form-control"
+                           [class.is-invalid]="hasFieldError('joiningDate', profileDetailsForm)">
+                    <div *ngIf="hasFieldError('joiningDate', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('joiningDate', profileDetailsForm) }}
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Patient Details -->
+                <div *ngIf="selectedProfile === 'patient'" class="row g-3">
+                  <div class="col-12">
+                    <h6>Emergency Contact Information</h6>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Contact Name *</label>
+                    <input type="text" formControlName="emergencyContactName" class="form-control"
+                           [class.is-invalid]="hasFieldError('emergencyContactName', profileDetailsForm)"
+                           placeholder="Emergency contact name">
+                    <div *ngIf="hasFieldError('emergencyContactName', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('emergencyContactName', profileDetailsForm) }}
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Contact Phone *</label>
+                    <input type="tel" formControlName="emergencyContactPhone" class="form-control"
+                           [class.is-invalid]="hasFieldError('emergencyContactPhone', profileDetailsForm)"
+                           placeholder="Emergency contact phone">
+                    <div *ngIf="hasFieldError('emergencyContactPhone', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('emergencyContactPhone', profileDetailsForm) }}
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Relationship *</label>
+                    <select formControlName="emergencyContactRelation" class="form-select"
+                            [class.is-invalid]="hasFieldError('emergencyContactRelation', profileDetailsForm)">
+                      <option value="">Select relationship</option>
+                      <option value="spouse">Spouse</option>
+                      <option value="parent">Parent</option>
+                      <option value="child">Child</option>
+                      <option value="sibling">Sibling</option>
+                      <option value="friend">Friend</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <div *ngIf="hasFieldError('emergencyContactRelation', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('emergencyContactRelation', profileDetailsForm) }}
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Blood Group</label>
+                    <select formControlName="bloodGroup" class="form-select">
+                      <option value="">Select blood group</option>
+                      <option *ngFor="let bg of bloodGroups" [value]="bg">{{ bg }}</option>
+                    </select>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label">Allergies</label>
+                    <textarea formControlName="allergies" class="form-control" rows="2"
+                              placeholder="List any allergies separated by commas"></textarea>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label">Medical History</label>
+                    <textarea formControlName="medicalHistory" class="form-control" rows="2"
+                              placeholder="Brief medical history or current conditions"></textarea>
+                  </div>
+                </div>
+
+                <!-- Admin Details -->
+                <div *ngIf="selectedProfile === 'admin'" class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Admin Level *</label>
+                    <select formControlName="adminLevel" class="form-select"
+                            [class.is-invalid]="hasFieldError('adminLevel', profileDetailsForm)">
+                      <option value="manager">Manager</option>
+                      <option value="support">Support</option>
+                    </select>
+                    <div *ngIf="hasFieldError('adminLevel', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('adminLevel', profileDetailsForm) }}
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label">Manager Authorization Code *</label>
+                    <input type="password" formControlName="managerCode" class="form-control"
+                           [class.is-invalid]="hasFieldError('managerCode', profileDetailsForm)"
+                           placeholder="Enter authorization code">
+                    <div *ngIf="hasFieldError('managerCode', profileDetailsForm)" class="invalid-feedback d-block">
+                      {{ getFieldError('managerCode', profileDetailsForm) }}
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="alert alert-info">
+                      <i class="fas fa-info-circle me-2"></i>
+                      Admin registration requires authorization. Please contact your system administrator for the authorization code.
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+              <!-- Submit Section -->
+              <div class="step-navigation mt-4">
+                <button type="button" 
+                        class="btn btn-outline-secondary"
+                        (click)="previousStep()">
+                  <i class="fas fa-arrow-left me-2"></i>
+                  Previous
+                </button>
+                <button type="submit" 
+                        class="btn btn-gradient-success ms-auto"
+                        [disabled]="isLoading || profileDetailsForm.invalid"
+                        (click)="onSubmit()">
+                  
+                  <!-- Loading State -->
+                  <span *ngIf="isLoading" class="d-flex align-items-center">
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Creating Account...
+                  </span>
+                  
+                  <!-- Normal State -->
+                  <span *ngIf="!isLoading" class="d-flex align-items-center">
+                    <i class="fas fa-user-plus me-2"></i>
+                    Create Account
+                  </span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-4 fade-in">
+          <p class="text-muted">
+            Already have an account?
+            <a href="javascript:void(0)" (click)="goToLogin()" class="text-primary ms-2">Sign In</a>
+          </p>
+          <small class="text-muted">
+            © {{ getCurrentYear() }} Clinic Management System. All rights reserved.
+          </small>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

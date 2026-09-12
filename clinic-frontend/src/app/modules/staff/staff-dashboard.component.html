@@ -1,0 +1,33 @@
+<div class="staff-dashboard">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+    <div class="container-fluid">
+      <a class="navbar-brand">
+        <i class="fas fa-users me-2"></i>
+        Staff Portal
+      </a>
+      <div class="navbar-nav ms-auto">
+        <span class="nav-link">Welcome, {{ currentUser?.firstName }}</span>
+        <a class="nav-link" (click)="logout()">
+          <i class="fas fa-sign-out-alt me-2"></i>Logout
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid p-4">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="text-white mb-4">Staff Dashboard</h2>
+        <div class="card">
+          <div class="card-body">
+            <h5>Welcome to your Staff Portal</h5>
+            <p>Manage appointments, assist patients, and support clinic operations.</p>
+            <p><strong>Profile:</strong> Staff</p>
+            <p><strong>Department:</strong> {{ currentUser?.staffDetails?.department || 'General' }}</p>
+            <p><strong>Designation:</strong> {{ currentUser?.staffDetails?.designation || 'Staff Member' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

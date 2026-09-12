@@ -1,0 +1,221 @@
+<div class="admin-dashboard">
+  <!-- Top Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-heartbeat me-2"></i>
+        Clinic Admin Portal
+      </a>
+      
+      <div class="navbar-nav ms-auto">
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" 
+             href="#" 
+             id="navbarDropdown" 
+             role="button" 
+             data-bs-toggle="dropdown">
+            <img src="https://via.placeholder.com/40" 
+                 class="rounded-circle me-2" 
+                 alt="Profile"
+                 width="40" 
+                 height="40">
+            <span>{{ currentUser?.firstName }} {{ currentUser?.lastName }}</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" (click)="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container-fluid p-4">
+    
+    <!-- Welcome Header -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="welcome-card glass-effect p-4 rounded-3 fade-in">
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <h2 class="text-gradient mb-2">
+                {{ getGreeting() }}, {{ currentUser?.firstName }}! 👋
+              </h2>
+              <p class="lead mb-0">
+                Welcome to your administrative dashboard. Monitor and manage all clinic operations from here.
+              </p>
+            </div>
+            <div class="col-md-4 text-end">
+              <div class="welcome-icon">
+                <i class="fas fa-user-shield"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <h4 class="section-title mb-3">
+          <i class="fas fa-chart-line me-2"></i>
+          System Overview
+        </h4>
+      </div>
+      
+      <div class="col-lg-2 col-md-4 col-sm-6 mb-3" 
+           *ngFor="let stat of dashboardStats | keyvalue">
+        <div class="stat-card animate__animated animate__fadeInUp">
+          <div class="stat-card-body">
+            <div class="stat-icon" [class]="'text-' + getStatColor(stat.key)">
+              <i [class]="getStatIcon(stat.key)"></i>
+            </div>
+            <div class="stat-content">
+              <h3 class="stat-number">
+                {{ stat.key === 'monthlyRevenue' ? formatCurrency(stat.value) : formatNumber(stat.value) }}
+              </h3>
+              <p class="stat-label">
+                {{ stat.key === 'totalPatients' ? 'Total Patients' :
+                   stat.key === 'totalDoctors' ? 'Total Doctors' :
+                   stat.key === 'totalStaff' ? 'Total Staff' :
+                   stat.key === 'totalAppointments' ? 'Today\'s Appointments' :
+                   stat.key === 'monthlyRevenue' ? 'Monthly Revenue' :
+                   'Pending Approvals' }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Alerts -->
+    <div class="row mb-4" *ngIf="systemAlerts.length > 0">
+      <div class="col-12">
+        <h4 class="section-title mb-3">
+          <i class="fas fa-bell me-2"></i>
+          System Alerts
+        </h4>
+        
+        <div class="row">
+          <div class="col-md-4 mb-3" *ngFor="let alert of systemAlerts">
+            <div class="alert" 
+                 [class]="'alert-' + alert.type + ' border-0 rounded-3'"
+                 role="alert">
+              <div class="d-flex align-items-center">
+                <i [class]="alert.icon + ' me-3'" style="font-size: 1.2rem;"></i>
+                <span>{{ alert.message }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="row">
+      
+      <!-- Quick Actions -->
+      <div class="col-lg-8 mb-4">
+        <h4 class="section-title mb-3">
+          <i class="fas fa-bolt me-2"></i>
+          Quick Actions
+        </h4>
+        
+        <div class="row">
+          <div class="col-md-6 col-lg-4 mb-3" *ngFor="let action of quickActions">
+            <div class="action-card" (click)="navigateTo(action.route)">
+              <div class="action-card-body">
+                <div class="action-icon" [class]="'text-' + action.color">
+                  <i [class]="action.icon"></i>
+                </div>
+                <h5 class="action-title">{{ action.title }}</h5>
+                <p class="action-description">{{ action.description }}</p>
+                <div class="action-arrow">
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="col-lg-4 mb-4">
+        <h4 class="section-title mb-3">
+          <i class="fas fa-history me-2"></i>
+          Recent Activity
+        </h4>
+        
+        <div class="activity-feed">
+          <div class="activity-item" *ngFor="let activity of recentActivity">
+            <div class="activity-icon" [class]="'activity-' + activity.type">
+              <i [class]="activity.icon"></i>
+            </div>
+            <div class="activity-content">
+              <div class="activity-text">
+                <strong>{{ activity.user }}</strong> {{ activity.action }}
+              </div>
+              <div class="activity-time">{{ activity.time }}</div>
+            </div>
+          </div>
+          
+          <div class="text-center mt-3">
+            <button class="btn btn-outline-primary btn-sm">
+              <i class="fas fa-eye me-2"></i>
+              View All Activities
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Management Tools -->
+    <div class="row">
+      <div class="col-12">
+        <h4 class="section-title mb-3">
+          <i class="fas fa-tools me-2"></i>
+          Management Tools
+        </h4>
+        
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <div class="tool-card">
+              <i class="fas fa-database tool-icon text-primary"></i>
+              <h6>Database Backup</h6>
+              <button class="btn btn-sm btn-outline-primary">Backup Now</button>
+            </div>
+          </div>
+          
+          <div class="col-md-3 mb-3">
+            <div class="tool-card">
+              <i class="fas fa-sync-alt tool-icon text-success"></i>
+              <h6>System Sync</h6>
+              <button class="btn btn-sm btn-outline-success">Sync Data</button>
+            </div>
+          </div>
+          
+          <div class="col-md-3 mb-3">
+            <div class="tool-card">
+              <i class="fas fa-file-export tool-icon text-warning"></i>
+              <h6>Export Reports</h6>
+              <button class="btn btn-sm btn-outline-warning">Export</button>
+            </div>
+          </div>
+          
+          <div class="col-md-3 mb-3">
+            <div class="tool-card">
+              <i class="fas fa-bell tool-icon text-info"></i>
+              <h6>Send Notifications</h6>
+              <button class="btn btn-sm btn-outline-info">Send Alert</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

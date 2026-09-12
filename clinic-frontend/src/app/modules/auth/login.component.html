@@ -1,0 +1,179 @@
+<div class="login-container">
+  <!-- Background Animation -->
+  <div class="animated-background">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+  </div>
+
+  <!-- Main Login Card -->
+  <div class="container-fluid">
+    <div class="row justify-content-center align-items-center min-vh-100">
+      <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+        
+        <!-- Login Card -->
+        <div class="card login-card glass-effect fade-in animate__animated animate__fadeInUp">
+          
+          <!-- Header -->
+          <div class="card-header text-center border-0 bg-transparent">
+            <div class="logo-container mb-3">
+              <i class="fas fa-heartbeat text-gradient" style="font-size: 3rem;"></i>
+            </div>
+            <h2 class="text-gradient mb-2">Clinic Management</h2>
+            <p class="text-muted">Welcome back! Please sign in to continue.</p>
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body px-4 pb-4">
+            
+            <!-- Alert Messages -->
+            <ngb-alert 
+              *ngIf="errorMessage" 
+              type="danger" 
+              (closed)="closeAlert()"
+              class="animate__animated animate__fadeInDown">
+              <i class="fas fa-exclamation-triangle me-2"></i>
+              {{ errorMessage }}
+            </ngb-alert>
+
+            <ngb-alert 
+              *ngIf="successMessage" 
+              type="success" 
+              (closed)="closeAlert()"
+              class="animate__animated animate__fadeInDown">
+              <i class="fas fa-check-circle me-2"></i>
+              {{ successMessage }}
+            </ngb-alert>
+
+            <!-- Login Form -->
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="slide-in-up">
+              
+              <!-- Email/Username Field -->
+              <div class="form-group mb-3">
+                <label for="emailOrUsername" class="form-label">
+                  <i class="fas fa-user me-2"></i>Email or Username
+                </label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    id="emailOrUsername"
+                    formControlName="emailOrUsername"
+                    class="form-control"
+                    [class.is-invalid]="hasFieldError('emailOrUsername')"
+                    placeholder="Enter your email or username"
+                    autocomplete="username">
+                  <span class="input-group-text">
+                    <i class="fas fa-at text-muted"></i>
+                  </span>
+                </div>
+                <div *ngIf="hasFieldError('emailOrUsername')" class="invalid-feedback d-block">
+                  {{ getFieldError('emailOrUsername') }}
+                </div>
+              </div>
+
+              <!-- Password Field -->
+              <div class="form-group mb-3">
+                <label for="password" class="form-label">
+                  <i class="fas fa-lock me-2"></i>Password
+                </label>
+                <div class="input-group">
+                  <input
+                    [type]="showPassword ? 'text' : 'password'"
+                    id="password"
+                    formControlName="password"
+                    class="form-control"
+                    [class.is-invalid]="hasFieldError('password')"
+                    placeholder="Enter your password"
+                    autocomplete="current-password">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    (click)="togglePasswordVisibility()"
+                    [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+                    <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                  </button>
+                </div>
+                <div *ngIf="hasFieldError('password')" class="invalid-feedback d-block">
+                  {{ getFieldError('password') }}
+                </div>
+              </div>
+
+              <!-- Remember Me & Forgot Password -->
+              <div class="row mb-4">
+                <div class="col-6">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      id="rememberMe"
+                      formControlName="rememberMe"
+                      class="form-check-input">
+                    <label for="rememberMe" class="form-check-label">
+                      Remember me
+                    </label>
+                  </div>
+                </div>
+                <div class="col-6 text-end">
+                  <a href="javascript:void(0)" 
+                     (click)="goToForgotPassword()" 
+                     class="text-primary text-decoration-none">
+                    Forgot password?
+                  </a>
+                </div>
+              </div>
+
+              <!-- Login Button -->
+              <div class="d-grid">
+                <button
+                  type="submit"
+                  class="btn btn-gradient-primary btn-lg"
+                  [disabled]="isLoading">
+                  
+                  <!-- Loading State -->
+                  <span *ngIf="isLoading" class="d-flex align-items-center justify-content-center">
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    Signing in...
+                  </span>
+                  
+                  <!-- Normal State -->
+                  <span *ngIf="!isLoading" class="d-flex align-items-center justify-content-center">
+                    <i class="fas fa-sign-in-alt me-2"></i>
+                    Sign In
+                  </span>
+                </button>
+              </div>
+            </form>
+
+            <!-- Divider -->
+            <div class="divider my-4">
+              <span class="divider-text">New to our clinic?</span>
+            </div>
+
+            <!-- Register Button -->
+            <div class="d-grid">
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-lg"
+                (click)="goToRegister()"
+                [disabled]="isLoading">
+                <i class="fas fa-user-plus me-2"></i>
+                Create New Account
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-4 fade-in">
+          <p class="text-muted">
+            <i class="fas fa-shield-alt me-1"></i>
+            Secure & HIPAA Compliant Healthcare Platform
+          </p>
+          <small class="text-muted">
+            © {{ getCurrentYear() }} Clinic Management System. All rights reserved.
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

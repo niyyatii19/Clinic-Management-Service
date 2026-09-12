@@ -1,0 +1,48 @@
+server:
+  port: 8089
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/clinic_db
+    username: knight05
+    password: Knight@85%Fury
+    driver-class-name: org.postgresql.Driver
+    rabbitmq:
+      host: localhost
+      port: 15672
+      username: guest
+      password: guest
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/master.xml
+    contexts: app, text
+    default-schema: public
+    database-change-log-table: t_database_changelog
+    database-change-log-lock-table: t_database_changelog_lock
+
+clinic:
+  rabbitmq:
+    exchange: clinic-exchange
+    queue:
+      appointmentBooked: clinic-queue-booking
+      appointmentReschedule: clinic-queue-reschedule
+      appointmentCancel: clinic-queue-cancel
+      appointmentReminder: clinic-queue-reminder
+    routing-key:
+      appointmentBooked: clinic-routing-key-booking
+      appointmentReschedule: clinic-routing-key-reschedule
+      appointmentCancel: clinic-routing-key-cancel
+      appointmentReminder: clinic-routing-key-reminder
+
+
+logging:
+  level:
+    liquibase: INFO
+    "org.springframework.boot.autoconfigure.liquibase": INFO

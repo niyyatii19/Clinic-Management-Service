@@ -1,0 +1,363 @@
+.admin-dashboard {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+// Navigation Bar
+.navbar {
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    
+    i {
+      animation: pulse 2s infinite;
+    }
+  }
+
+  .nav-link {
+    font-weight: 500;
+    
+    &.dropdown-toggle::after {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .dropdown-menu {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    
+    .dropdown-item {
+      padding: 0.7rem 1rem;
+      font-weight: 500;
+      
+      &:hover {
+        background-color: rgba(102, 126, 234, 0.1);
+      }
+      
+      &.text-danger:hover {
+        background-color: rgba(220, 53, 69, 0.1);
+      }
+    }
+  }
+}
+
+// Welcome Card
+.welcome-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  
+  .welcome-icon {
+    text-align: center;
+    
+    i {
+      font-size: 4rem;
+      color: var(--primary-color);
+      opacity: 0.8;
+      animation: float 3s ease-in-out infinite;
+    }
+  }
+}
+
+// Section Titles
+.section-title {
+  color: white;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  
+  i {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+// Statistics Cards
+.stat-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .stat-card-body {
+    display: flex;
+    align-items: center;
+    
+    .stat-icon {
+      font-size: 2.5rem;
+      margin-right: 1rem;
+      opacity: 0.8;
+    }
+    
+    .stat-content {
+      flex: 1;
+      
+      .stat-number {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        color: var(--dark-color);
+      }
+      
+      .stat-label {
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin: 0;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Action Cards
+.action-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.6s ease;
+  }
+  
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    
+    &::before {
+      left: 100%;
+    }
+    
+    .action-arrow {
+      transform: translateX(5px);
+    }
+  }
+
+  .action-card-body {
+    text-align: center;
+    
+    .action-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    
+    .action-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark-color);
+    }
+    
+    .action-description {
+      font-size: 0.9rem;
+      color: #6c757d;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    
+    .action-arrow {
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      transition: transform 0.3s ease;
+    }
+  }
+}
+
+// Activity Feed
+.activity-feed {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+  .activity-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    
+    &:last-child {
+      margin-bottom: 1rem;
+    }
+    
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      font-size: 0.9rem;
+      
+      &.activity-update {
+        background: rgba(0, 123, 255, 0.1);
+        color: #007bff;
+      }
+      
+      &.activity-create {
+        background: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+      }
+      
+      &.activity-system {
+        background: rgba(108, 117, 125, 0.1);
+        color: #6c757d;
+      }
+      
+      &.activity-approval {
+        background: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+      }
+    }
+    
+    .activity-content {
+      flex: 1;
+      
+      .activity-text {
+        font-size: 0.9rem;
+        color: var(--dark-color);
+        margin-bottom: 0.25rem;
+        line-height: 1.4;
+      }
+      
+      .activity-time {
+        font-size: 0.8rem;
+        color: #6c757d;
+      }
+    }
+  }
+}
+
+// Tool Cards
+.tool-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  }
+  
+  .tool-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  
+  h6 {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--dark-color);
+  }
+}
+
+// Alerts
+.alert {
+  backdrop-filter: blur(10px);
+  border-left: 4px solid currentColor;
+  font-weight: 500;
+  
+  i {
+    opacity: 0.8;
+  }
+}
+
+// Animations
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .container-fluid {
+    padding: 1rem !important;
+  }
+  
+  .welcome-card {
+    text-align: center;
+    
+    .welcome-icon {
+      margin-top: 1rem;
+    }
+  }
+  
+  .stat-card {
+    margin-bottom: 1rem;
+  }
+  
+  .action-card {
+    margin-bottom: 1rem;
+  }
+  
+  .tool-card {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.2rem;
+  }
+  
+  .stat-card .stat-card-body {
+    flex-direction: column;
+    text-align: center;
+    
+    .stat-icon {
+      margin-right: 0;
+      margin-bottom: 0.5rem;
+    }
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+  }
+}

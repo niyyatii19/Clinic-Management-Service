@@ -1,0 +1,653 @@
+.register-container {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+// Animated Background
+.animated-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  animation: float 8s ease-in-out infinite;
+
+  &.circle-1 {
+    width: 300px;
+    height: 300px;
+    top: 5%;
+    left: 5%;
+    animation-delay: 0s;
+  }
+
+  &.circle-2 {
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    right: 5%;
+    animation-delay: 2s;
+  }
+
+  &.circle-3 {
+    width: 150px;
+    height: 150px;
+    bottom: 10%;
+    left: 60%;
+    animation-delay: 4s;
+  }
+
+  &.circle-4 {
+    width: 100px;
+    height: 100px;
+    top: 30%;
+    left: 30%;
+    animation-delay: 6s;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) scale(1) rotate(0deg);
+    opacity: 0.6;
+  }
+  33% {
+    transform: translateY(-30px) scale(1.1) rotate(120deg);
+    opacity: 0.8;
+  }
+  66% {
+    transform: translateY(20px) scale(0.9) rotate(240deg);
+    opacity: 0.7;
+  }
+}
+
+// Main Registration Card
+.register-card {
+  position: relative;
+  z-index: 1;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.95);
+  overflow: hidden;
+  transition: all 0.4s ease;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 35px 70px rgba(0, 0, 0, 0.25);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: var(--gradient-success);
+  }
+}
+
+.card-header {
+  background: transparent !important;
+  padding: 2rem 2rem 1rem 2rem;
+
+  .logo-container {
+    position: relative;
+    display: inline-block;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+      background: rgba(79, 172, 254, 0.15);
+      border-radius: 50%;
+      z-index: -1;
+      animation: pulse 3s infinite;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px;
+      height: 120px;
+      background: rgba(0, 242, 254, 0.1);
+      border-radius: 50%;
+      z-index: -2;
+      animation: pulse 3s infinite 0.5s;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0;
+  }
+}
+
+// Progress Bar Styling
+.progress-container {
+  .progress {
+    height: 8px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    .progress-bar {
+      background: var(--gradient-success);
+      transition: width 0.6s ease;
+      border-radius: 10px;
+    }
+  }
+
+  .step-indicators {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+
+    .step-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: rgba(0, 0, 0, 0.4);
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+
+      i {
+        font-size: 1.2rem;
+        margin-bottom: 0.25rem;
+        padding: 8px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.1);
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      &.active {
+        color: var(--primary-color);
+        font-weight: 600;
+
+        i {
+          background: var(--gradient-primary);
+          color: white;
+          transform: scale(1.1);
+        }
+      }
+
+      &.completed {
+        color: var(--secondary-color);
+
+        i {
+          background: var(--gradient-success);
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+// Profile Selection Cards
+.profile-card {
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.6s ease;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    border-color: var(--primary-color);
+
+    &::before {
+      left: 100%;
+    }
+
+    .profile-icon i {
+      transform: scale(1.2) rotate(5deg);
+    }
+  }
+
+  &.selected {
+    border-color: var(--secondary-color);
+    background: rgba(40, 167, 69, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+
+    .selection-indicator {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .profile-icon i {
+      color: var(--secondary-color) !important;
+    }
+  }
+
+  .profile-icon {
+    margin-bottom: 1rem;
+
+    i {
+      font-size: 3rem;
+      transition: all 0.4s ease;
+    }
+  }
+
+  h5 {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--dark-color);
+  }
+
+  p {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+    line-height: 1.4;
+  }
+
+  .selection-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: var(--secondary-color);
+    font-size: 1.5rem;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s ease;
+  }
+}
+
+// Step Content Animation
+.step-content {
+  animation: slideInUp 0.6s ease-out;
+}
+
+// Form Styling
+.form-group {
+  position: relative;
+
+  .form-label {
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+
+    i {
+      color: var(--primary-color);
+    }
+  }
+
+  .form-control,
+  .form-select {
+    height: 50px;
+    border-radius: 12px;
+    border: 2px solid #e9ecef;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.9);
+
+    &:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.2rem rgba(79, 172, 254, 0.25);
+      background: rgba(255, 255, 255, 1);
+      transform: translateY(-2px);
+    }
+
+    &.is-invalid {
+      border-color: var(--danger-color);
+      box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+
+    &::placeholder {
+      color: #adb5bd;
+      font-style: italic;
+    }
+  }
+
+  textarea.form-control {
+    height: auto;
+    resize: vertical;
+  }
+
+  .input-group {
+    .btn-outline-secondary {
+      border: 2px solid #e9ecef;
+      border-left: none;
+      border-radius: 0 12px 12px 0;
+      background: rgba(248, 249, 250, 0.9);
+      color: var(--dark-color);
+      
+      &:hover {
+        background: rgba(79, 172, 254, 0.1);
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+      }
+    }
+  }
+}
+
+// Button Styling
+.step-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+  .btn {
+    min-width: 120px;
+    height: 50px;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+}
+
+.btn-gradient-primary {
+  background: var(--gradient-primary);
+  border: none;
+  color: white;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    color: white;
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    transform: none;
+    cursor: not-allowed;
+  }
+}
+
+.btn-gradient-success {
+  background: var(--gradient-success);
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(79, 172, 254, 0.4);
+    color: white;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    transform: none;
+    cursor: not-allowed;
+  }
+}
+
+.btn-outline-secondary {
+  border: 2px solid #6c757d;
+  color: #6c757d;
+  background: transparent;
+
+  &:hover {
+    background: #6c757d;
+    color: white;
+    transform: translateY(-2px);
+  }
+}
+
+// Form Check (Checkboxes)
+.form-check {
+  .form-check-input {
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 4px;
+    border: 2px solid #dee2e6;
+    
+    &:checked {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    &:focus {
+      border-color: var(--primary-color);
+      outline: 0;
+      box-shadow: 0 0 0 0.25rem rgba(79, 172, 254, 0.25);
+    }
+
+    &.is-invalid {
+      border-color: var(--danger-color);
+    }
+  }
+
+  .form-check-label {
+    font-size: 0.9rem;
+    color: var(--dark-color);
+    margin-left: 0.5rem;
+    cursor: pointer;
+    line-height: 1.4;
+  }
+}
+
+// Links
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    color: #4191d0;
+    text-decoration: underline;
+  }
+}
+
+// Error Messages
+.invalid-feedback {
+  font-size: 0.875rem;
+  color: var(--danger-color);
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+
+  &::before {
+    content: '\f071';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-right: 0.5rem;
+  }
+}
+
+// Alert Styling
+ngb-alert {
+  border-radius: 12px;
+  border: none;
+  font-weight: 500;
+  
+  &.alert-danger {
+    background: rgba(220, 53, 69, 0.1);
+    color: var(--danger-color);
+    border-left: 4px solid var(--danger-color);
+  }
+
+  &.alert-success {
+    background: rgba(40, 167, 69, 0.1);
+    color: var(--secondary-color);
+    border-left: 4px solid var(--secondary-color);
+  }
+
+  &.alert-info {
+    background: rgba(23, 162, 184, 0.1);
+    color: var(--accent-color);
+    border-left: 4px solid var(--accent-color);
+  }
+}
+
+// Loading Animation
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .register-container {
+    padding: 1rem 0;
+  }
+
+  .register-card {
+    margin: 1rem;
+    border-radius: 15px;
+  }
+
+  .card-header {
+    padding: 1.5rem 1rem 1rem 1rem;
+    
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .card-body {
+    padding: 1.5rem 1rem 2rem 1rem;
+  }
+
+  .profile-card {
+    margin-bottom: 1rem;
+    min-height: 140px;
+  }
+
+  .step-indicators {
+    .step-indicator {
+      font-size: 0.7rem;
+
+      i {
+        font-size: 1rem;
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+
+  .step-navigation {
+    flex-direction: column;
+    gap: 1rem;
+
+    .btn {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .circle {
+    display: none;
+  }
+
+  .col-md-6 {
+    margin-bottom: 1rem;
+  }
+}
+
+// Focus States for Accessibility
+.btn:focus,
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+// Animation Classes
+.fade-in {
+  animation: fadeIn 1s ease-out;
+}
+
+.slide-in-up {
+  animation: slideInUp 0.6s ease-out;
+}
+
+// Multi-select styling
+select[multiple] {
+  height: auto !important;
+  min-height: 120px;
+  
+  option {
+    padding: 0.5rem;
+    margin: 2px 0;
+    border-radius: 4px;
+
+    &:checked {
+      background: var(--primary-color) !important;
+      color: white !important;
+    }
+  }
+}
+
+// Form text
+.form-text {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+}

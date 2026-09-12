@@ -1,0 +1,37 @@
+.access-denied-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+  color: white;
+  
+  .access-denied-content {
+    .error-icon {
+      i {
+        font-size: 6rem;
+        color: rgba(255, 255, 255, 0.8);
+        animation: pulse 2s infinite;
+      }
+    }
+    
+    h1 {
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .lead {
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .btn {
+      min-width: 150px;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}

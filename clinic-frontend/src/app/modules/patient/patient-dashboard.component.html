@@ -1,0 +1,33 @@
+<div class="patient-dashboard">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand">
+        <i class="fas fa-user-injured me-2"></i>
+        Patient Portal
+      </a>
+      <div class="navbar-nav ms-auto">
+        <span class="nav-link">Welcome, {{ currentUser?.firstName }}</span>
+        <a class="nav-link" (click)="logout()">
+          <i class="fas fa-sign-out-alt me-2"></i>Logout
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid p-4">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="text-white mb-4">Patient Dashboard</h2>
+        <div class="card">
+          <div class="card-body">
+            <h5>Welcome to your Patient Portal</h5>
+            <p>View your medical records, book appointments, and manage your healthcare.</p>
+            <p><strong>Profile:</strong> Patient</p>
+            <p><strong>Blood Group:</strong> {{ currentUser?.patientDetails?.bloodGroup || 'Not specified' }}</p>
+            <p><strong>Emergency Contact:</strong> {{ currentUser?.patientDetails?.emergencyContact?.name || 'Not specified' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

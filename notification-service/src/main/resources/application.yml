@@ -1,0 +1,32 @@
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: clinic.notifications@clinic.com
+    password: clinicNotification85
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+clinic:
+  rabbitmq:
+    exchange: clinic-exchange
+    queue:
+      appointmentBooked: clinic-queue-booking
+      appointmentReschedule: clinic-queue-reschedule
+      appointmentCancel: clinic-queue-cancel
+      appointmentReminder: clinic-queue-reminder
+    routing-key:
+      appointmentBooking: clinic-routing-key-booking
+      appointmentReschedule: clinic-routing-key-reschedule
+      appointmentCancel: clinic-routing-key-cancel
+      appointmentReminder: clinic-routing-key-reminder
